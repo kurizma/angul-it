@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MathCaptchaComponent } from './math-captcha.component';
 
 describe('MathCaptchaComponent', () => {

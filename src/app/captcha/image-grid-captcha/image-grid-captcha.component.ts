@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-image-grid-captcha',
@@ -10,6 +10,9 @@ import { Component } from '@angular/core';
   styleUrl: './image-grid-captcha.component.css'
 })
 export class ImageGridCaptchaComponent {
+  @Output() result = new EventEmitter<boolean>();
+  @Output() validChange = new EventEmitter<boolean>();
+
    // Example: select all images with cats
   images = [
     { src: 'assets/cat1.jpg', isCorrect: true },
@@ -21,9 +24,18 @@ export class ImageGridCaptchaComponent {
   selected: boolean[] = Array(this.images.length).fill(false);
   error: string = '';
 
+  isInputValid(): boolean {
+    // Valid if at least one checkbox is selected (customize as needed)
+    return this.selected.some(v => v);
+  }
+
+  onSelectionChange() {
+    this.validChange.emit(this.isInputValid());
+  }
+
   verifyImageGrid() {
     const isValid = this.images.every((img, i) => img.isCorrect === this.selected[i]);
     this.error = isValid ? '' : 'Incorrect selection. Try again!';
-    // You can emit an @Output event to parent for success/failure here.
+    this.result.emit(isValid);
   }
 }

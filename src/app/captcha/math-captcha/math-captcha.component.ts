@@ -14,10 +14,19 @@ export class MathCaptchaComponent {
   secondNumber: number;
   userAnswer = '';
   @Output() result = new EventEmitter<boolean>();
+  @Output() validChange = new EventEmitter<boolean>();
 
   constructor() {
     this.firstNumber = this.randomNumber();
     this.secondNumber = this.randomNumber();
+  }
+
+  isInputValid(): boolean {
+    return this.userAnswer.trim().length > 0 && !isNaN(Number(this.userAnswer));
+  }
+
+  onInputChange() {
+    this.validChange.emit(this.isInputValid()); 
   }
 
   verifyMathCaptcha() {

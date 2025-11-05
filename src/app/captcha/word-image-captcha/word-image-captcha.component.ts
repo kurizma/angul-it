@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Component, Output, EventEmitter} from '@angular/core';
+
 
 @Component({
   selector: 'app-word-image-captcha',
@@ -15,13 +16,25 @@ export class WordImageCaptchaComponent {
   captchaError: string = '';
   captcha: string = 'X7C9B'; // Example: replace with randomization if needed
 
+  @Output() result = new EventEmitter<boolean>();
+  @Output() validChange = new EventEmitter<boolean>();
+
+  isInputValid(): boolean {
+    return this.userInput.trim().length > 0;
+  }
+
+  onInputChange() {
+    this.validChange.emit(this.isInputValid());
+  }
+
   verifyWordImageCaptcha() {
     if (this.userInput === this.captcha) {
       this.captchaError = '';
-      // continue to next step or emit event as needed
+      this.result.emit(true);
     } else {
       this.tries++;
       this.captchaError = 'Incorrect, try again.';
+      this.result.emit(false);
     }
   }
 }
