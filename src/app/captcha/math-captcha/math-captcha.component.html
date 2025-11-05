@@ -1,0 +1,7 @@
+<div class="math-captcha">
+  <label>
+    What is {{ firstNumber }} + {{ secondNumber }}?
+    <input type="text" [(ngModel)]="userAnswer" autocomplete="off"/>
+  </label>
+  <button (click)="verifyMathCaptcha()">Submit</button>
+</div>

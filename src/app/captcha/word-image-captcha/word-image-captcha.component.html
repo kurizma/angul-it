@@ -1,0 +1,7 @@
+<p>word-image-captcha works!</p>
+<div>
+  <!-- <img src="assets/captcha1.png" alt="CAPTCHA" /> -->
+  <input [(ngModel)]="userInput" placeholder="Enter letters/numbers" />
+  <button (click)="verifyWordImageCaptcha()" [disabled]="tries >= 3">Submit</button>
+  <div *ngIf="captchaError">{{ captchaError }}</div>
+</div>

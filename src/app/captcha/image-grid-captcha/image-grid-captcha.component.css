@@ -1,0 +1,11 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.grid-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.error { color: red; }
