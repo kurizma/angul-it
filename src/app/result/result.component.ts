@@ -16,6 +16,6 @@ export class ResultComponent {
 
   restart() {
     this.stateService.resetState();
-    this.router.navigate(['/captcha']);
+    this.router.navigate(['']);
   }
 }
