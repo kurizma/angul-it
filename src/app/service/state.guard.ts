@@ -11,7 +11,7 @@ export class StateGuard implements CanActivate {
   canActivate(): boolean {
     const highestReached = this.stateService.loadState('highestStateReached', 1);
     if (highestReached < 3) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['']);
       return false;
     }
     return true;

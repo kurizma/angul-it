@@ -1,21 +1,9 @@
-<p>captcha works!</p>
-<div>
-  <app-math-captcha *ngIf="currentState === 1"
-    (result)="handleCaptchaResult($event)">
-  </app-math-captcha>
-
-  <app-word-image-captcha *ngIf="currentState === 2"
-    (result)="handleCaptchaResult($event)">
-  </app-word-image-captcha>
-
-
-  <app-image-grid-captcha *ngIf="currentState === 3"
-    (result)="handleCaptchaResult($event)">
-  </app-image-grid-captcha>
-
-</div>
-<div class="nav-buttons">
-  <button (click)="stateService.updateCurrentState(currentState - 1)" [disabled]="currentState === 1">
-    Previous
-  </button>
+<div class="captcha-center-container">
+  <div class="captcha-container">
+    <h2 class="captcha-title">{{ challengeTitles[currentState] }}</h2>
+    <div class="challenge-step">
+      <app-math-captcha *ngIf="currentState === 1" (result)="handleCaptchaResult($event)"></app-math-captcha>
+      <app-word-image-captcha *ngIf="currentState === 2" (result)="handleCaptchaResult($event)"></app-word-image-captcha>
+      <app-image-grid-captcha *ngIf="currentState === 3" (result)="handleCaptchaResult($event)"></app-image-grid-captcha>
+    </div>
 </div>

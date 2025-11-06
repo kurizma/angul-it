@@ -26,6 +26,13 @@ export class CaptchaComponent implements OnInit, OnDestroy {
   private currentStateSubscription?: Subscription;
   private highestStateReachedSubscription?: Subscription;
 
+  challengeTitles = [
+  '',                                 // Placeholder for index 0
+  'Find the sum!',                    // State 1
+  'Match the word and image!',        // State 2
+  'Select all images with cats!'      // State 3
+];
+
   constructor(public stateService: StateService,private router: Router) {}
 
   ngOnInit(): void {

@@ -7,5 +7,6 @@ import { StateGuard } from './service/state.guard';
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'captcha', component: CaptchaComponent },
-    { path: 'result', component: ResultComponent, canActivate: [StateGuard] }
+    { path: 'result', component: ResultComponent, canActivate: [StateGuard] },
+    { path: '**', redirectTo: '' }
 ];

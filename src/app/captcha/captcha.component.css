@@ -1,0 +1,28 @@
+.captcha-container {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 3px 20px rgba(89,34,156,0.10);
+  padding: 2rem 1.5rem 1.8rem 1.5rem;
+  max-width: 400px;
+  width: 100%;
+  margin: 2.2rem auto;
+  text-align: center;
+}
+.captcha-center-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--main-color, #EDDBF3);
+}
+
+.captcha-title {
+  font-size: 1.66rem;
+  font-weight: 700;
+  color: var(--main-text, #262053);
+  margin-bottom: 1.4rem;
+}
+
+.challenge-step {
+  margin-bottom: 2.2rem;
+}

@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --main-color: #E4CEF0;
+    --main-accent: #ab96be;
+    --main-text: #262053;
+    --button-color: #a685e2;
+    --error-color: #ff9494;
+    --success-color: #76eec6;
+    }
+body {
+    background: var(--main-color);
+    color: var(--main-text);
+    font-family: 'Nunito', Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.site-footer {
+  width: 100vw;
+  background: var(--main-color, #EDDBF3);
+  color: var(--main-text, #262053);
+  font-size: 0.85rem;    /* Reduced font-size */
+  text-align: center;
+  padding: 1.2rem 0 0.9rem 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 110;
+  box-shadow: 0 0 6px rgba(89,34,156,0.04);
+  letter-spacing: 0.02em;
+}
+
+
+.footer-link {
+  color: var(--button-color, #a685e2);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.13s;
+}
+
+.footer-link:hover, .footer-link:focus {
+  color: #875fd7;
+}
