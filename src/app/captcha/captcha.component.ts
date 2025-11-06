@@ -29,8 +29,8 @@ export class CaptchaComponent implements OnInit, OnDestroy {
   challengeTitles = [
     '',                                 // Placeholder for index 0
     'Find the sum!',                    // State 1
-    'Match the code in the image!',        // State 2
-    'Select all images with cats!'      // State 3
+    'Match the code in the image!',     // State 2
+    'Click Click Boom!'                 // State 3
   ];
 
   failureCounts: { [key: string]: number } = {
@@ -59,7 +59,7 @@ export class CaptchaComponent implements OnInit, OnDestroy {
   }
 
   handleCaptchaResult(isCorrect: boolean): void {
-    console.log('Parent received result:', isCorrect, 'Current state:', this.currentState);
+    // console.log('Parent received result:', isCorrect, 'Current state:', this.currentState);
     if (isCorrect) {
       // Reset this challenge's failure counter
       this.failureCounts[this.currentState] = 0;

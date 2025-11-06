@@ -1,11 +1,86 @@
-.grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.grid-img {
+.challenge-container, .image-grid-captcha-container {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
   align-items: center;
+  padding: 1.5rem 0;
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 3px 20px rgba(89,34,156,0.10);
+  max-width: 400px;
+  width: 100%;
+  margin: 2.2rem auto;
+  text-align: center;
 }
-.error { color: red; }
+
+.captcha-title {
+  font-size: 1.66rem;
+  font-weight: 700;
+  color: var(--main-text, #262053);
+  margin-bottom: 1.4rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  aspect-ratio: 1/1;
+  background: url('../../../assets/images/street.jpeg') center/cover no-repeat;
+  width: 360px;
+  position: relative;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(89,34,156,0.08);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.cell {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border: 1px solid var(--main-accent, #ab96be);
+  background: transparent;
+  cursor: pointer;
+  transition: background .18s, border-color .18s, box-shadow .18s;
+  outline: none;
+}
+
+.cell:hover,
+.cell:focus-visible {
+  background: rgba(166,133,226,0.61); /* soft highlight, matches your purple accent */
+  border-color: var(--button-color, #a685e2);
+  box-shadow: 0 0 8px #a685e2;
+  transform: scale(1.03);
+  z-index: 2;
+}
+
+.cell.selected {
+  background: rgba(166,133,226,0.38); /* matches button highlight */
+  border: 2px solid var(--button-color, #a685e2);
+}
+
+.challenge-btn {
+  background: var(--button-color, #a685e2);
+  color: #fff;
+  border: none;
+  border-radius: 0.8rem;
+  padding: 0.82rem 2.1rem;
+  font-size: 1.14rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+  box-shadow: 0 2px 8px rgba(89,34,156,0.08);
+}
+.challenge-btn:disabled {
+  background: #cbbaeb;
+  cursor: not-allowed;
+}
+.challenge-btn:hover,
+.challenge-btn:focus {
+  background: #875fd7;
+}
+
+.error-message {
+  color: var(--error-color, #ff9494);
+  font-size: 0.99rem;
+  margin-top: -0.6rem;
+  text-align: center;
+}

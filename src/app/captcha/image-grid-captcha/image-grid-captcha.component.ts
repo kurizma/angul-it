@@ -1,6 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component, Output, EventEmitter} from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+
+const expectedGrid = [
+  [false, false, false, false, false, false],
+  [false, false, false, false, false, false],
+  [true, true, false, false, false, false],
+  [true, true, false, false, false, false],
+  [false, false, false, false, false, false],
+  [false, false, false, false, false, false]
+];
 
 @Component({
   selector: 'app-image-grid-captcha',
@@ -11,31 +20,39 @@ import { Component, Output, EventEmitter} from '@angular/core';
 })
 export class ImageGridCaptchaComponent {
   @Output() result = new EventEmitter<boolean>();
-  @Output() validChange = new EventEmitter<boolean>();
-
-   // Example: select all images with cats
-  images = [
-    { src: 'assets/cat1.jpg', isCorrect: true },
-    { src: 'assets/dog1.jpg', isCorrect: false },
-    { src: 'assets/cat2.jpg', isCorrect: true },
-    { src: 'assets/bird1.jpg', isCorrect: false },
-    // Add more as needed
-  ];
-  selected: boolean[] = Array(this.images.length).fill(false);
   error: string = '';
 
+  grid: { selected: boolean }[][];
+
+  constructor() {
+    // 6x6 grid, each cell is selectable
+    this.grid = Array.from({ length: 6 }, () =>
+      Array.from({ length: 6 }, () => ({ selected: false }))
+    );
+  }
+
+  toggleCell(i: number, j: number) {
+    // Toggle selection state for cell [i][j]
+    this.grid[i][j].selected = !this.grid[i][j].selected;
+  }
+
   isInputValid(): boolean {
-    // Valid if at least one checkbox is selected (customize as needed)
-    return this.selected.some(v => v);
+    // Valid only if at least one cell is selected
+    return this.grid.some(row => row.some(cell => cell.selected));
   }
 
-  onSelectionChange() {
-    this.validChange.emit(this.isInputValid());
-  }
-
-  verifyImageGrid() {
-    const isValid = this.images.every((img, i) => img.isCorrect === this.selected[i]);
-    this.error = isValid ? '' : 'Incorrect selection. Try again!';
-    this.result.emit(isValid);
+  validateSelection() {
+    // Compare selected matrix to expected grid
+    for (let i = 0; i < 6; i++) {
+      for (let j = 0; j < 6; j++) {
+        if (this.grid[i][j].selected !== expectedGrid[i][j]) {
+          this.error = "Incorrect selection. Try again!";
+          this.result.emit(false);
+          return;
+        }
+      }
+    }
+    this.error = "";
+    this.result.emit(true);
   }
 }

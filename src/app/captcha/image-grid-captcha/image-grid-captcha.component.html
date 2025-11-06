@@ -1,14 +1,15 @@
-<p>image-grid-captcha works!</p>
-<div class="image-grid-captcha">
-  <p>Select all images with cats:</p>
+<div class="challenge-container image-grid-captcha-container">
+  <h2 class="captcha-title">Select all tiles with yellow cars</h2>
   <div class="grid">
-    <label *ngFor="let img of images; let i = index" class="grid-img">
-      <img [src]="img.src" alt="Grid image" width="100" height="100"/>
-      <input type="checkbox"
-             [(ngModel)]="selected[i]"
-             (change)="onSelectionChange()" />
-    </label>
+    <ng-container *ngFor="let row of grid; let i = index">
+      <ng-container *ngFor="let cell of row; let j = index">
+        <div class="cell"
+          (click)="toggleCell(i, j)"
+          [class.selected]="cell.selected">
+        </div>
+      </ng-container>
+    </ng-container>
   </div>
-  <button (click)="verifyImageGrid()" [disabled]="!isInputValid()">Submit</button>
-  <div *ngIf="error" class="error">{{ error }}</div>
+  <button (click)="validateSelection()" [disabled]="!isInputValid()" class="challenge-btn">Submit</button>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
 </div>
