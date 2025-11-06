@@ -6,6 +6,7 @@
       [(ngModel)]="userInput"
       (ngModelChange)="onInputChange()"
       placeholder="Enter letters / numbers"
+      [class.invalid-input]="!isInputValid() && userInput.length > 0"
       [disabled]="tries >= 3"
       autocomplete="off"
     />

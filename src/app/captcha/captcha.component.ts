@@ -59,20 +59,20 @@ export class CaptchaComponent implements OnInit, OnDestroy {
   }
 
   handleCaptchaResult(isCorrect: boolean): void {
+    console.log('Parent received result:', isCorrect, 'Current state:', this.currentState);
     if (isCorrect) {
       // Reset this challenge's failure counter
       this.failureCounts[this.currentState] = 0;
+
       if (this.currentState < 3) {
         this.currentState++;
+        this.failureCounts[this.currentState] = 0;
         this.stateService.updateCurrentState(this.currentState);
         this.stateService.updateHighestStateReached(this.highestStateReached);
       } else {
         this.stateService.updateCurrentState(3);
         this.stateService.updateHighestStateReached(3);
         this.router.navigate(['/result']);
-      }
-      if (this.currentState === 2) {
-        this.stateService.updateWordImageCaptchaTries(0);
       }
     } else {
       // Increment failure for this challenge
@@ -81,10 +81,6 @@ export class CaptchaComponent implements OnInit, OnDestroy {
         this.showTryAgainModal = true;
         document.body.style.overflow = 'hidden';
         return; // Blocks further action until modal is closed/retried
-      }
-      if (this.currentState === 2) {
-        const tries = this.stateService.loadState('wordImageCaptchaTries', 0) + 1;
-        this.stateService.updateWordImageCaptchaTries(tries);
       }
     }
   }

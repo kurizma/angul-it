@@ -26,8 +26,7 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
     return this.userInput.trim().length > 0;
   }
   onInputChange() {
-    // Optionally, you can put logic here if you want to react to input changes
-    // For now, just an empty method because template needs it to exist
+    this.captchaError = '';
   }
 
   private wordImageCaptchaTriesSubscription?: Subscription;;
@@ -110,6 +109,10 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
   
   // verify the user's input, user has 3 tries
   verifyWordImageCaptcha() {
+    if (!this.isInputValid()) {
+      this.captchaError = "Please type what you see.";
+      return;
+    }
     if (this.userInput === "") {
       this.tries++;
       this.stateService.updateWordImageCaptchaTries(this.tries);
@@ -128,9 +131,8 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
       } else if (this.tries === 2) {
         this.captchaError = "Wrong captcha! Last try!";
       }
-      if (this.tries > 2) {
-        this.result.emit(false);
-      }
+      // Emit false every time there is a wrong answer
+      this.result.emit(false);
     } else {
       this.result.emit(true);
     }
