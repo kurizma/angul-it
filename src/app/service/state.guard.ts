@@ -1,19 +1,16 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { StateService } from '../service/state.service';
+import { inject } from '@angular/core'; 
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StateGuard implements CanActivate {
-  constructor(private stateService: StateService, private router: Router) {}
+export const stateGuard: CanActivateFn = (route, state) => {
+  const stateService = inject(StateService);
+  const router = inject(Router);
 
-  canActivate(): boolean {
-    const highestReached = this.stateService.loadState('highestStateReached', 1);
-    if (highestReached < 3) {
-      this.router.navigate(['']);
-      return false;
-    }
-    return true;
+  // This assumes you want to check 'highestStateReached' and allow if ≥ 3
+  const highestReached = stateService.loadState('highestStateReached', 1);
+  if (highestReached < 3) {
+    router.navigate(['']);
+    return false;
   }
-}
+  return true;
+};
