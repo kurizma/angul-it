@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { StateService } from '../service/state.service';
 import { MathCaptchaComponent } from './math-captcha/math-captcha.component';
 import { WordImageCaptchaComponent } from './word-image-captcha/word-image-captcha.component';
@@ -13,6 +14,17 @@ import { Subscription } from 'rxjs';
   imports: [
     CommonModule,
     MathCaptchaComponent, WordImageCaptchaComponent, ImageGridCaptchaComponent
+  ],
+  animations: [
+    trigger('challengeTransition', [
+    transition(':enter', [
+      style({ opacity: 0, transform: 'translateY(36px) scale(0.98)' }),
+      animate('530ms cubic-bezier(.54,.18,.65,.97)', style({ opacity: 1, transform: 'translateY(0) scale(1)' }))
+    ]),
+    transition(':leave', [
+      animate('300ms cubic-bezier(.43,.17,.67,.84)', style({ opacity: 0, transform: 'translateY(-18px) scale(0.97)' }))
+      ])
+    ])
   ],
   templateUrl: './captcha.component.html',
   styleUrl: './captcha.component.css'
