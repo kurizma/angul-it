@@ -13,6 +13,7 @@ export class HomeComponent {
 
   startCaptcha() {
     this.stateService.resetState();
+    this.stateService.setStartTime();
     this.router.navigate(['/captcha']);
   }
 }

@@ -82,6 +82,7 @@ export class CaptchaComponent implements OnInit, OnDestroy {
         this.stateService.updateCurrentState(this.currentState);
         this.stateService.updateHighestStateReached(this.highestStateReached);
       } else {
+        this.stateService.setEndTime();
         this.stateService.updateCurrentState(3);
         this.stateService.updateHighestStateReached(3);
         this.router.navigate(['/result']);

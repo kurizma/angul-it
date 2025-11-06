@@ -1,7 +1,25 @@
-<h2>Congrats, You're Human!</h2>
-<ul>
-  <li>Math CAPTCHA: Completed</li>
-  <li>Word Image CAPTCHA: {{ wordImageCaptchaTries }} tries used</li>
-  <li>Image Grid CAPTCHA: Completed</li>
-</ul>
-<button (click)="restart()">Restart Challenge</button>
+<div class="result-container">
+  <h1 class="result-title">🎉 Congrats, You're Human!</h1>
+  
+  <div class="result-card">
+    <ul>
+      <li>
+        <span class="label">Math CAPTCHA:</span>
+        <span class="value">Completed ✔️</span>
+      </li>
+      <li>
+        <span class="label">Word Image CAPTCHA:</span>
+        <span class="value">{{ wordImageCaptchaTries }} tries used</span>
+      </li>
+      <li>
+        <span class="label">Image Grid CAPTCHA:</span>
+        <span class="value">Completed ✔️</span>
+      </li>
+      <li>
+        <span class="label">Total Time:</span>
+        <span class="value">{{ formattedTimer }}</span>
+      </li>
+    </ul>
+    <button class="restart-btn" (click)="restart()">Restart Challenge</button>
+  </div>
+</div>

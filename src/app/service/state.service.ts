@@ -63,11 +63,32 @@ export class StateService implements OnDestroy {
     this.wordImageCaptchaTriesSubject.next(state);
   }
 
+// Save the current timestamp as the start time
+setStartTime(): void {
+  localStorage.setItem('startTime', Date.now().toString());
+}
+
+// Save the current timestamp as the end time
+setEndTime(): void {
+  localStorage.setItem('endTime', Date.now().toString());
+}
+
+// Retrieve and compute total time in seconds
+getElapsedTimeSeconds(): number {
+  const start = Number(localStorage.getItem('startTime'));
+  const end = Number(localStorage.getItem('endTime'));
+  return (start && end && end > start) ? Math.floor((end - start) / 1000) : 0;
+}
+
 
   // Reset the state to the initial state
   resetState(): void {
     this.updateCurrentState(1);
     this.updateHighestStateReached(1);
     this.updateWordImageCaptchaTries(0);
+    localStorage.removeItem('startTime');
+    localStorage.removeItem('endTime');
   }
+
+  
 }
