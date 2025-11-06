@@ -1,3 +1,11 @@
+<div *ngIf="showTryAgainModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>Try Again?</h2>
+    <p>You've reached the maximum number of tries.<br>Please restart the challenge.</p>
+    <button class="modal-btn" (click)="restartCaptcha()">Restart</button>
+  </div>
+</div>
+
 <div class="captcha-center-container">
   <div class="captcha-container">
     <h2 class="captcha-title">{{ challengeTitles[currentState] }}</h2>

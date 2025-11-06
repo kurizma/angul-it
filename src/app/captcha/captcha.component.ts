@@ -27,11 +27,19 @@ export class CaptchaComponent implements OnInit, OnDestroy {
   private highestStateReachedSubscription?: Subscription;
 
   challengeTitles = [
-  '',                                 // Placeholder for index 0
-  'Find the sum!',                    // State 1
-  'Match the word and image!',        // State 2
-  'Select all images with cats!'      // State 3
-];
+    '',                                 // Placeholder for index 0
+    'Find the sum!',                    // State 1
+    'Match the code in the image!',        // State 2
+    'Select all images with cats!'      // State 3
+  ];
+
+  failureCounts: { [key: string]: number } = {
+    "1": 0,
+    "2": 0,
+    "3": 0
+  };
+  MAX_FAILURES = 3;
+  showTryAgainModal = false;
 
   constructor(public stateService: StateService,private router: Router) {}
 
@@ -47,19 +55,13 @@ export class CaptchaComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.currentStateSubscription?.unsubscribe();
     this.highestStateReachedSubscription?.unsubscribe();
+    document.body.style.overflow = '';
   }
-
-  maybeNext() {
-  if (this.currentState < 3) {
-    this.stateService.updateCurrentState(this.currentState + 1);
-  } else {
-    // All challenges complete, navigate!
-    this.router.navigate(['/result']);
-  }
-}
 
   handleCaptchaResult(isCorrect: boolean): void {
     if (isCorrect) {
+      // Reset this challenge's failure counter
+      this.failureCounts[this.currentState] = 0;
       if (this.currentState < 3) {
         this.currentState++;
         this.stateService.updateCurrentState(this.currentState);
@@ -69,23 +71,37 @@ export class CaptchaComponent implements OnInit, OnDestroy {
         this.stateService.updateHighestStateReached(3);
         this.router.navigate(['/result']);
       }
-      // Reset word-image attempts ONLY if user solved it
       if (this.currentState === 2) {
         this.stateService.updateWordImageCaptchaTries(0);
       }
     } else {
-      // Only challenge 2 has the 3 tries logic:
+      // Increment failure for this challenge
+      this.failureCounts[this.currentState]++;
+      if (this.failureCounts[String(this.currentState)] >= this.MAX_FAILURES) {
+        this.showTryAgainModal = true;
+        document.body.style.overflow = 'hidden';
+        return; // Blocks further action until modal is closed/retried
+      }
       if (this.currentState === 2) {
         const tries = this.stateService.loadState('wordImageCaptchaTries', 0) + 1;
         this.stateService.updateWordImageCaptchaTries(tries);
-        if (tries >= 3) {
-          this.stateService.resetState();
-          // Optional: this.router.navigate(['/wrong']);
-        }
-        // Otherwise, user can keep retrying challenge 2!
       }
-      // Challenges 1 and 3 have unlimited retries—just let user retry on failure
     }
+  }
+
+  restartCaptcha() {
+    this.stateService.resetState();
+    this.currentState = 1;
+    this.highestStateReached = 1;
+    this.failureCounts = { "1": 0, "2": 0, "3": 0 };
+    this.showTryAgainModal = false;
+    document.body.style.overflow = '';
+    this.router.navigate(['/']); // Redirect to start/home page
+  }
+  
+  closeModal(): void {
+    this.showTryAgainModal = false;
+    document.body.style.overflow = ''; // Enable scroll
   }
 
 }

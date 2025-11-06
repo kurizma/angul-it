@@ -1,11 +1,27 @@
-<div>
-  <label>{{ firstNumber }} + {{ secondNumber }} = </label>
+<div class="math-challenge-container">
+  <label for="answer-input" class="math-question">
+    What is {{ firstNumber }} + {{ secondNumber }}?
+  </label>
   <input
+    id="answer-input"
     type="text"
     [(ngModel)]="userAnswer"
     (ngModelChange)="onInputChange()"
+    placeholder="Enter your answer"
+    aria-label="Answer"
+    [class.invalid-input]="!isInputValid() && userAnswer.length > 0"
   />
-  <button type="button" [disabled]="!isInputValid()" (click)="verifyMathCaptcha()">
+  <div *ngIf="wrongAnswer" class="error-message">
+    That is not the correct answer, try again!
+  </div>
+  <div *ngIf="!isInputValid() && userAnswer.length > 0" class="error-message">
+    Please enter a valid number!
+  </div>
+  <button
+    type="button"
+    [disabled]="!isInputValid()"
+    (click)="verifyMathCaptcha()"
+  >
     Submit
   </button>
 </div>

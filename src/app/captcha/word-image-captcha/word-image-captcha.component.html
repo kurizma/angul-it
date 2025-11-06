@@ -1,6 +1,20 @@
-<p>word-image-captcha works!</p>
-<div>
-  <input [(ngModel)]="userInput" (ngModelChange)="onInputChange()" placeholder="Enter letters/numbers" />
-  <button (click)="verifyWordImageCaptcha()" [disabled]="!isInputValid() || tries >= 3">Submit</button>
-  <div *ngIf="captchaError">{{ captchaError }}</div>
+<div class="word-image-captcha-container">
+  <p>Type the text you see below:</p>
+  <canvas #canvas width="180" height="50"></canvas>
+  <div class="input-group">
+    <input
+      [(ngModel)]="userInput"
+      (ngModelChange)="onInputChange()"
+      placeholder="Enter letters / numbers"
+      [disabled]="tries >= 3"
+      autocomplete="off"
+    />
+    <button
+      (click)="verifyWordImageCaptcha()"
+      [disabled]="!isInputValid() || tries >= 3"
+    >
+      Submit
+    </button>
+  </div>
+  <div *ngIf="captchaError" class="error-message">{{ captchaError }}</div>
 </div>

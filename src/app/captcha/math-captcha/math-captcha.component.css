@@ -1,0 +1,62 @@
+.math-challenge-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+.math-question {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--main-text, #262053);
+  margin-bottom: 0.7rem;
+  text-align: center;
+  letter-spacing: -0.6px;
+}
+
+
+input[type="text"] {
+  padding: 0.57rem 1.19rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--main-accent, #ab96be);
+  font-size: 1.08rem;
+}
+input[type="text"]::placeholder {
+  text-align: center;
+  color: #b29bca; /* Optional: softer purple to match theme */
+  font-size: 1.1rem; /* Optional: adjust to taste */
+}
+
+.invalid-input {
+  border-color: var(--error-color, #ff9494);
+}
+
+.error-message {
+  color: var(--error-color, #ff9494);
+  font-size: 0.99rem;
+  margin-top: -0.6rem;
+}
+
+
+.math-challenge-container button {
+  background: var(--button-color, #a685e2);
+  color: #fff;
+  border: none;
+  border-radius: 0.8rem;
+  padding: 0.82rem 2.1rem;
+  font-size: 1.14rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+  box-shadow: 0 2px 8px rgba(89,34,156,0.08);
+}
+
+.math-challenge-container button:disabled {
+  background: #cbbaeb;
+  cursor: not-allowed;
+}
+
+.math-challenge-container button:hover,
+.math-challenge-container button:focus {
+  background: #875fd7;
+}

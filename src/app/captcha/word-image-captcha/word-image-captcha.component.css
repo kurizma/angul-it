@@ -1,0 +1,86 @@
+.word-image-captcha-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+
+.word-image-captcha-container p {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--main-text, #262053);
+  margin-bottom: 0.65rem;
+  text-align: center;
+}
+
+canvas {
+  margin: 0.2rem auto 0.7rem auto;
+  display: block;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(89,34,156,0.05);
+}
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="text"], input {
+  padding: 0.57rem 1.19rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--main-accent, #ab96be);
+  font-size: 1.08rem;
+  text-align: center;
+}
+
+input[type="text"]::placeholder {
+  text-align: center;
+  color: #b29bca;
+  font-size: 1.1rem;
+}
+
+input.invalid-input {
+  border-color: var(--error-color, #ff9494);
+}
+
+.error-message {
+  color: var(--error-color, #ff9494);
+  font-size: 0.99rem;
+  margin-top: -0.6rem;
+  text-align: center;
+}
+
+.word-image-captcha-container button {
+  background: var(--button-color, #a685e2);
+  color: #fff;
+  border: none;
+  border-radius: 0.8rem;
+  padding: 0.82rem 2.1rem;
+  font-size: 1.14rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+  box-shadow: 0 2px 8px rgba(89,34,156,0.08);
+}
+
+.word-image-captcha-container button:disabled {
+  background: #cbbaeb;
+  cursor: not-allowed;
+}
+
+.word-image-captcha-container button:hover,
+.word-image-captcha-container button:focus {
+  background: #875fd7;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column; /* This stacks children vertically */
+  gap: 0.75rem;
+  align-items: center;
+  width: 100%;
+}

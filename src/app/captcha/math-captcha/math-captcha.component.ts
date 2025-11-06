@@ -13,6 +13,8 @@ export class MathCaptchaComponent {
   firstNumber: number;
   secondNumber: number;
   userAnswer = '';
+  wrongAnswer = false;
+
   @Output() result = new EventEmitter<boolean>();
   @Output() validChange = new EventEmitter<boolean>();
 
@@ -26,11 +28,13 @@ export class MathCaptchaComponent {
   }
 
   onInputChange() {
-    this.validChange.emit(this.isInputValid()); 
+    this.validChange.emit(this.isInputValid());
+    this.wrongAnswer = false; 
   }
 
   verifyMathCaptcha() {
     const isCorrect = Number(this.userAnswer) === this.firstNumber + this.secondNumber;
+    this.wrongAnswer = !isCorrect;
     this.result.emit(isCorrect);
   }
 
