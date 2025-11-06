@@ -22,16 +22,15 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
   aspect-ratio: 1/1;
   background: url('../../../assets/images/street.jpeg') center/cover no-repeat;
-  width: min(99vw, 360px);
+  width: 360px;
   position: relative;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(89,34,156,0.08);
   overflow: hidden;
   margin-bottom: 1.5rem;
-  transition: width 0.2s;
 }
 
 .cell {
@@ -46,7 +45,7 @@
 
 .cell:hover,
 .cell:focus-visible {
-  background: rgba(166,133,226,0.61); /* soft highlight, matches your purple accent */
+  background: rgba(166,133,226,0.86); /* soft highlight, matches your purple accent */
   border-color: var(--button-color, #a685e2);
   box-shadow: 0 0 8px #a685e2;
   transform: scale(1.03);
