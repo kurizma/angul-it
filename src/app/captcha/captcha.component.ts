@@ -98,6 +98,20 @@ export class CaptchaComponent implements OnInit, OnDestroy {
     }
   }
 
+  goToPreviousChallenge(): void {
+    if (this.currentState > 1) {
+      this.currentState--;
+      this.stateService.updateCurrentState(this.currentState);
+    }
+  }
+
+  goToNextChallenge(): void {
+    if (this.isCurrentValid && this.currentState < 3) {
+      this.currentState++;
+      this.stateService.updateCurrentState(this.currentState);
+    }
+  }
+
   restartCaptcha() {
     this.stateService.resetState();
     this.currentState = 1;

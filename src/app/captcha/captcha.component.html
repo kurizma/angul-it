@@ -20,5 +20,17 @@
         <app-image-grid-captcha (result)="handleCaptchaResult($event)"></app-image-grid-captcha>
       </div>
     </div>
+    <div class="captcha-navigation" *ngIf="!showTryAgainModal">
+      <button 
+        (click)="goToPreviousChallenge()" 
+        [disabled]="currentState === 1">
+        Previous
+      </button>
+      <button 
+        (click)="goToNextChallenge()" 
+        [disabled]="!isCurrentValid || currentState === 3">
+        Next
+      </button>
+    </div>
   </div>
 </div>
