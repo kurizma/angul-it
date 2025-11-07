@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './math-captcha.component.css'
 })
 export class MathCaptchaComponent {
+  @Input() isCompleted: boolean = false;
+
   firstNumber: number;
   secondNumber: number;
   userAnswer = '';

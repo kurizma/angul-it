@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 
 const expectedGrid = [
   [false, false, false, false, false, false],
@@ -20,6 +20,8 @@ const expectedGrid = [
 })
 export class ImageGridCaptchaComponent {
   @Output() result = new EventEmitter<boolean>();
+  @Input() isCompleted: boolean = false;
+
   error: string = '';
 
   grid: { selected: boolean }[][];

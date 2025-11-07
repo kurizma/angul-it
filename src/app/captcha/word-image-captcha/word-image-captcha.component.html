@@ -1,6 +1,6 @@
-<div class="word-image-captcha-container">
+<div *ngIf="!isCompleted; else completedBlock" class="word-image-captcha-container">
   <p>Type the text you see below:</p>
-  <canvas #canvas width="180" height="50"></canvas>
+  <canvas #canvas width="220" height="70"></canvas>
   <div class="input-group">
     <input
       [(ngModel)]="userInput"
@@ -19,3 +19,8 @@
   </div>
   <div *ngIf="captchaError" class="error-message">{{ captchaError }}</div>
 </div>
+<ng-template #completedBlock>
+  <div class="word-image-captcha-completed">
+    <span>✅ Captcha completed!</span>
+  </div>
+</ng-template>

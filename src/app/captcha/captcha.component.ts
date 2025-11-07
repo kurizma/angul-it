@@ -51,18 +51,38 @@ export class CaptchaComponent implements OnInit, OnDestroy {
     "3": 0
   };
   MAX_FAILURES = 3;
+
+  completedStates: { [key: number]: boolean } = {
+    1: false,
+    2: false,
+    3: false
+  };
+
   showTryAgainModal = false;
 
   constructor(public stateService: StateService,private router: Router) {}
 
   ngOnInit(): void {
+    // Load completed states from localStorage
+    const savedStates = localStorage.getItem('completedStates');
+    if (savedStates) {
+      this.completedStates = JSON.parse(savedStates);
+    }
+
     this.currentStateSubscription = this.stateService.currentState$.subscribe(state => {
       this.currentState = state;
+      this.isCurrentValid = this.completedStates[this.currentState];
     });
     this.highestStateReachedSubscription = this.stateService.highestStateReached$.subscribe(reach => {
       this.highestStateReached = reach;
     });
   }
+
+  markCompleted(challengeNum: number) {
+    this.completedStates[challengeNum] = true;
+    localStorage.setItem('completedStates', JSON.stringify(this.completedStates));
+  }
+
 
   ngOnDestroy(): void {
     this.currentStateSubscription?.unsubscribe();
@@ -73,6 +93,7 @@ export class CaptchaComponent implements OnInit, OnDestroy {
   handleCaptchaResult(isCorrect: boolean): void {
     // console.log('Parent received result:', isCorrect, 'Current state:', this.currentState);
     if (isCorrect) {
+      this.markCompleted(this.currentState);
       // Reset this challenge's failure counter
       this.failureCounts[this.currentState] = 0;
 
@@ -102,17 +123,22 @@ export class CaptchaComponent implements OnInit, OnDestroy {
     if (this.currentState > 1) {
       this.currentState--;
       this.stateService.updateCurrentState(this.currentState);
+      // Ensure validity reflects completion
+      this.isCurrentValid = this.completedStates[this.currentState];
     }
   }
 
   goToNextChallenge(): void {
-    if (this.isCurrentValid && this.currentState < 3) {
+    if (this.completedStates[this.currentState] && this.currentState < 3) {
       this.currentState++;
       this.stateService.updateCurrentState(this.currentState);
+      this.isCurrentValid = this.completedStates[this.currentState];
     }
   }
 
   restartCaptcha() {
+    localStorage.removeItem('completedStates');
+    this.completedStates = { 1: false, 2: false, 3: false };
     this.stateService.resetState();
     this.currentState = 1;
     this.highestStateReached = 1;

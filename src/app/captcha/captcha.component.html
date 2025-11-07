@@ -11,13 +11,22 @@
     <h2 class="captcha-title">{{ challengeTitles[currentState] }}</h2>
     <div class="challenge-step">
       <div *ngIf="currentState === 1" @challengeTransition>
-        <app-math-captcha (result)="handleCaptchaResult($event)"></app-math-captcha>
+        <app-math-captcha
+          [isCompleted]="completedStates[1]"
+          (result)="handleCaptchaResult($event)">
+        </app-math-captcha>
       </div>
       <div *ngIf="currentState === 2" @challengeTransition>
-        <app-word-image-captcha (result)="handleCaptchaResult($event)"></app-word-image-captcha>
+        <app-word-image-captcha
+          [isCompleted]="completedStates[2]"
+          (result)="handleCaptchaResult($event)">
+        </app-word-image-captcha>
       </div>
       <div *ngIf="currentState === 3" @challengeTransition>
-        <app-image-grid-captcha (result)="handleCaptchaResult($event)"></app-image-grid-captcha>
+        <app-image-grid-captcha
+          [isCompleted]="completedStates[3]"
+          (result)="handleCaptchaResult($event)">
+        </app-image-grid-captcha>
       </div>
     </div>
     <div class="captcha-navigation" *ngIf="!showTryAgainModal">
@@ -28,7 +37,7 @@
       </button>
       <button 
         (click)="goToNextChallenge()" 
-        [disabled]="!isCurrentValid || currentState === 3">
+        [disabled]="!completedStates[currentState] || currentState === 3">
         Next
       </button>
     </div>

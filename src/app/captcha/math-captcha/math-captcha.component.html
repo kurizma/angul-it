@@ -1,4 +1,4 @@
-<div class="math-challenge-container">
+<div *ngIf="!isCompleted; else completedBlock" class="math-challenge-container">
   <label for="answer-input" class="math-question">
     What is {{ firstNumber }} + {{ secondNumber }}?
   </label>
@@ -25,3 +25,8 @@
     Submit
   </button>
 </div>
+<ng-template #completedBlock>
+  <div class="math-challenge-completed">
+    <span>✅ Math challenge completed!</span>
+  </div>
+</ng-template>

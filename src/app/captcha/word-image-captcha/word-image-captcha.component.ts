@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { StateService } from '../../service/state.service';
@@ -21,6 +21,7 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
   captchaError: string = '';
   tries: number = 0;
   @Output() result = new EventEmitter<boolean>();
+  @Input() isCompleted: boolean = false;
 
   isInputValid(): boolean {
     return this.userInput.trim().length > 0;
@@ -33,6 +34,7 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
 
   constructor(private stateService: StateService) {
     this.createCaptcha();
+    console.log('Generated CAPTCHA:', this.theCaptcha);
   }
 
   ngOnInit(): void {
@@ -43,11 +45,20 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
 
   // ngAfterViewInit() is called after the component's view has been fully initialized
   ngAfterViewInit() {
-    this.drawCaptcha();
+    if (!this.isCompleted && this.canvas && this.canvas.nativeElement) {
+      this.drawCaptcha();
+    }
   }
 
   ngOnDestroy(): void {
     this.wordImageCaptchaTriesSubscription?.unsubscribe();
+  }
+
+  ngOnChanges() {
+  if (!this.isCompleted && this.canvas && this.canvas.nativeElement) {
+      this.createCaptcha();
+      this.drawCaptcha();
+    }
   }
 
   createCaptcha() {
@@ -68,44 +79,35 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
   
   // turn the captcha into an image
   drawCaptcha() {
-    // get the canvas element
-    const ctx = this.canvas.nativeElement.getContext('2d');
-    if (ctx) {
-      // clear the canvas before drawing
-      ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-      // draw random lines
-      for (var i= 0; i<7; i++) {
-        // beginPath() starts a new path by emptying the list of sub-paths. Call this method when you want to create a new path.
-        ctx.beginPath();
-        // moveto(x,y) draws a line from the current drawing position to the position specified by x and y.
-        ctx.moveTo(this.canvas.nativeElement.width*Math.random(),this.canvas.nativeElement.height*Math.random());
-        // lineto(x,y) draws a line from the current drawing position to the position specified by x and y.
-        ctx.lineTo(this.canvas.nativeElement.width*Math.random(),this.canvas.nativeElement.height*Math.random());
-        // strokeStyle sets or returns the color, gradient, or pattern used for strokes.
-        ctx.strokeStyle= "rgb(" +
-        Math.round(256*Math.random()) + "," +
-        Math.round(256*Math.random()) + "," +
-        Math.round(256*Math.random()) + ")";
-        ctx.stroke();
-      }
-      const textColors = ["rgb(0,0,0)", "rgb(130,130,130)"];
-      //space between letters
-      const letterSpace = 140 / this.theCaptcha.length;
-      for (let i = 0; i < this.theCaptcha.length; i++) {
-        // Define initial space on X axis
-        const xInitialSpace = 20;
-        //Set font for canvas element
-        ctx.font = "20px Roboto Mono";
-        //set text color
-        ctx.fillStyle = textColors[this.randomNumber(0, 1)];
-        ctx.fillText(
-          this.theCaptcha[i],
-          xInitialSpace + i * letterSpace,
-          this.randomNumber(23, 40),
-          100);
-      }
+    const canvasEl = this.canvas?.nativeElement;
+    if (!canvasEl) return;
+    const ctx = canvasEl.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+
+    // Draw random lines
+    for (let i = 0; i < 7; i++) {
+      ctx.beginPath();
+      ctx.moveTo(canvasEl.width * Math.random(), canvasEl.height * Math.random());
+      ctx.lineTo(canvasEl.width * Math.random(), canvasEl.height * Math.random());
+      ctx.strokeStyle = `rgb(${Math.round(256 * Math.random())},${Math.round(256 * Math.random())},${Math.round(256 * Math.random())})`;
+      ctx.stroke();
+    }
+
+    const textColors = ["rgb(0,0,0)", "rgb(130,130,130)"];
+    const letterSpace = canvasEl.width / this.theCaptcha.length;
+    for (let i = 0; i < this.theCaptcha.length; i++) {
+      const xInitialSpace = 20;
+      ctx.font = "20px monospace";
+      ctx.fillStyle = textColors[this.randomNumber(0, 1)];
+      ctx.fillText(
+        this.theCaptcha[i], 
+        xInitialSpace + i * letterSpace, 
+        this.randomNumber(40, 60) // y position within canvas height
+      );
     }
   }
+
   
   // verify the user's input, user has 3 tries
   verifyWordImageCaptcha() {
