@@ -14,7 +14,8 @@ import { StateService } from '../../service/state.service';
   styleUrl: './word-image-captcha.component.css'
 })
 export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
+  // @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   captcha: (string | number)[] = new Array(6);
   theCaptcha: string = '';
   userInput: string = '';
@@ -33,8 +34,8 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
   private wordImageCaptchaTriesSubscription?: Subscription;;
 
   constructor(private stateService: StateService) {
-    this.createCaptcha();
-    console.log('Generated CAPTCHA:', this.theCaptcha);
+    // this.createCaptcha();
+    // console.log('Generated CAPTCHA:', this.theCaptcha);
   }
 
   ngOnInit(): void {
@@ -45,9 +46,14 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
 
   // ngAfterViewInit() is called after the component's view has been fully initialized
   ngAfterViewInit() {
-    if (!this.isCompleted && this.canvas && this.canvas.nativeElement) {
-      this.drawCaptcha();
-    }
+    setTimeout(() => {
+      if (!this.isCompleted && this.canvas && this.canvas.nativeElement) {
+        this.createCaptcha();  // Generate new CAPTCHA now that view is ready
+        console.log('Generated CAPTCHA:', this.theCaptcha);
+        this.drawCaptcha();    // Draw it immediately
+        // this.drawCaptcha();
+      }
+    }, 0);
   }
 
   ngOnDestroy(): void {
