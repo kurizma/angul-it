@@ -88,7 +88,10 @@ getElapsedTimeSeconds(): number {
     this.updateWordImageCaptchaTries(0);
     localStorage.removeItem('startTime');
     localStorage.removeItem('endTime');
+    localStorage.removeItem('currentState');
+    localStorage.removeItem('highestStateReached');
+    localStorage.removeItem('completedStates');
+    localStorage.removeItem('wordImageCaptchaTries');
   }
 
-  
 }
